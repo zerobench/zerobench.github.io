@@ -1,0 +1,848 @@
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroBench</title>
+    <meta name="description" content="ZeroBench: An Impossible Visual Benchmark for Contemporary Large Multimodal Models">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="robots" content="all">
+    <meta content="en_EN" property="og:locale">
+    <meta content="website" property="og:type">
+    <meta content="https://shikun.io/projects/clarity" property="og:url">
+    <meta content="ZeroBench" property="og:title">
+    <meta content="An Impossible Visual Benchmark for Contemporary Large Multimodal Models" property="og:description">
+
+    <link rel="icon" href="assets/figures/zerobench_logo2.png">
+    <link rel="stylesheet" type="text/css" media="all" href="assets/stylesheets/main_free.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="clarity/clarity.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/foundation.min.css">
+    <link href="assets/fontawesome-free-6.6.0-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css"/>
+    <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+
+    <script src="assets/scripts/navbar.js"></script> <!-- Comment to remove table of content. -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            "HTML-CSS": {
+              scale: 95,
+              fonts: ["Gyre-Pagella"],
+              imageFont: null,
+              undefinedFamily: "'Arial Unicode MS', cmbright"
+            },
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+              }
+          });
+    </script>
+    <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Title Page -->
+    <!-- Dark Theme Example: Change the background colour dark and change the following div "blog-title" into "blog-title white".
+    <div class="container blog" id="first-content" style="background-color: #E0E4E6;">
+        If you don't have a project cover: Change "blog-title" into "blog-title no-cover"
+        <div class="blog-title no-cover"> -->
+
+   <div class="container blog" id="first-content" style="background: linear-gradient(180deg, hsla(250, 80%, 90%, 1) 0%, hsla(30, 50%, 100%, 1) 100%);">
+
+     <!-- Navbar -->
+     <nav class="navbar" role="navigation" aria-label="main navigation">
+       <!-- Brand / Burger (mobile) -->
+       <div class="navbar-brand">
+         <!-- Burger menu icon (hidden on desktop by default) -->
+         <a
+           role="button"
+           class="navbar-burger"
+           aria-label="menu"
+           aria-expanded="false"
+         >
+           <span aria-hidden="true"></span>
+           <span aria-hidden="true"></span>
+           <span aria-hidden="true"></span>
+         </a>
+       </div>
+
+       <!-- Navbar menu (links) -->
+       <div class="navbar-menu">
+         <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+           <!-- Dropdown -->
+           <div class="navbar-item has-dropdown is-hoverable">
+             <a class="navbar-link">
+               Other Evals <span class="dropdown-arrow">▼</span>
+             </a>
+             <div class="navbar-dropdown">
+               <a class="navbar-item" href="https://grab-benchmark.github.io/">
+                 <b>GRAB</b>
+               </a>
+               <a class="navbar-item" href="https://scifibench.github.io/">
+                 <b>SciFIBench</b>
+               </a>
+               <a class="navbar-item" href="https://needle-threading.github.io/">
+                 <b>Needle Threading</b>
+               </a>
+               </a>
+             </div>
+           </div>
+           <!-- You could add other navbar-items here if you like -->
+         </div>
+       </div>
+     </nav>
+
+      <div class="blog-title no-cover">
+
+            <div class="blog-intro">
+                <div>
+                    <h1 class="title">ZeroBench:<br>An Impossible<sup>*</sup> Visual Benchmark for Contemporary Large Multimodal Models</h1>
+                    <p class="author"><br>
+                      Jonathan Roberts<sup style="color:#3fb0b0">1</sup><br><br>
+                      Mohammad Reza Taesiri<sup style="color:#b7950b">2</sup>, Ansh Sharma<sup style="color:#3fb0b0">1</sup>, Akash Gupta<sup style="color:#3fb0b0">1</sup><br><br>
+                      Samuel Roberts<sup style="color:#e45529db">3</sup>, Ioana Croitoru<sup style="color:#e45529db">3</sup>, Simion-Vlad Bogolin<sup style="color:#e45529db">3</sup>, Jialu Tang<sup style="color:#67c723">4</sup>, Florian Langer<sup style="color:#3fb0b0">1</sup>, Vyas Raina<sup style="color:#3fb0b0">1</sup>, Vatsal Raina<sup style="color:#3fb0b0">1</sup>, Hanyi Xiong<sup style="color:#67c723">4</sup>, Vishaal Udandarao<sup>1,5</sup> Jingyi Lu<sup style="color:#67c723">4</sup>, Shiyang Chen<sup style="color:#67c723">4</sup>, Sam Purkis<sup style="color:#e45529db">3</sup>, Tianshuo Yan<sup style="color:#67c723">4</sup>,
+                      Wenye Lin<sup style="color:#67c723">4</sup>, Gyungin Shin<sup style="color:#6495ED">6</sup>, Qiaochu Yang<sup style="color:#67c723">4</sup>, Anh Totti Nguyen<sup>7</sup><br><br>
+                      Kai Han<sup style="color:#67c723">4</sup><sup>&#8224;</sup>, Samuel Albanie<sup>&#8224;</sup></p>
+<p class="author" style="padding-top: 0px;">
+  <br><br>
+  <em>
+    <sup style="color:#3fb0b0" style="font-weight:bold">1</sup>University of Cambridge,
+    <sup style="color:#b7950b" >2</sup>University of Alberta,
+    <sup style="color:#e45529db">3</sup>Independent Researcher,<br>
+    <sup style="color:#67c723">4</sup>The University of Hong Kong,
+    <sup style="color:#8e44ad">5</sup>University of T&#252;bingen,
+    <sup style="color:#6495ED">6</sup>University of Oxford,
+    <sup>7</sup>Auburn University <br>
+    <sup>&#8224;</sup>Equal advising<br><br>
+    <sup>*</sup>Given the recent rapid advancements in model capabilities,<br>we do not expect ZeroBench to remain "impossible" for long.
+</em>
+<br><br>
+</p>
+<div class="info">
+    <div>
+      <a href="https://arxiv.org" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">arXiv <i class="ai ai-arxiv"></i></a> &nbsp;&nbsp;
+      <a href="https://arxiv.org" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Paper <i class="fa-solid fa-book-open"></i></a> &nbsp;&nbsp;
+      <a href="https://github.com/jonathan-roberts1/zerobench" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Code <i class="fa-solid fa-code"></i></a>  &nbsp;&nbsp;
+      <a href="https://huggingface.co/datasets/jonathan-roberts1/zerobench" class="button icon" style="background-color: rgba(255, 255, 255, 0.2)">Dataset 🤗</a>
+    </div>
+</div>
+
+<div class="container-wrapper">
+    <div class="flashy-container">
+        <b>State of the art on ZeroBench <span style="color:teal;">5/5 reliability</span>: <span style="color:IndianRed;">0%</span></b><br>
+        (correctly answering a question on 5/5 samplings)
+    </div>
+</div>
+<!--
+<p class="abstract">
+  Large Multimodal Models (LMMs) exhibit major shortfalls when interpreting images,
+  and by some measures have poorer spatial cognition than small children or animals.
+  Despite this, they attain high scores on many popular visual benchmarks,
+  with headroom rapidly eroded by an ongoing surge of model progress. To address this, we introduce ZeroBench—a lightweight 100 question visual reasoning benchmark
+  that is entirely impossible for contemporary frontier LMMs. We evaluate 20 LMMs on ZeroBench, all of which score 0.0%, and rigorously analyse the errors.</p>
+
+
+                     <p class="abstract">
+                      Large Multimodal Models (LMMs) exhibit major shortfalls when interpreting images,
+                      and by some measures have poorer spatial cognition than small children or animals.
+                      Despite this, they attain high scores on many popular visual benchmarks,
+                      with headroom rapidly eroded by an ongoing surge of model progress. To address this,
+                      there is a pressing need for difficult benchmarks that remain relevant for longer. We take this
+                      idea to its limit by introducing ZeroBench—a lightweight visual reasoning benchmark
+                      that is entirely impossible for contemporary frontier LMMs. Our benchmark consists of 100 manually
+                      curated questions and 334 less difficult subquestions. We evaluate 20 LMMs on ZeroBench,
+                      all of which score 0.0%, and rigorously analyse the errors. To encourage progress in
+                      visual understanding, we publicly release ZeroBench.</p> -->
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="container blog main first" id="blog-main">
+        <h1 style="margin-top: -100px;">
+            Introduction
+        </h1>
+
+        <p class='text'>
+
+          Contemporary LMMs often exhibit remarkable performance on existing visual benchmarks, yet closer inspection reveals persistent shortcomings in their ability to interpret and reason about visual content. Many existing benchmarks tend to become saturated, losing their value as effective measures of the true visual understanding capabilities of frontier models.
+
+        </p>
+
+        <img src="assets/figures/sota_comparison.png" style="width: 100%;">
+        <p class="caption">
+          Frontier LMMs score highly on many popular benchmarks, leaving little headroom. By comparison, our ZeroBench proves impossible for current models, leaving maximum headroom.
+        </p>
+
+        <p class='text'>
+
+          Due to rapid progress in model development, the headroom on popular visual benchmarks is quickly eroded---in many cases the State of the Art (SotA) score improved each month.
+
+        </p>
+
+        <img src="assets/figures/sota_progress.png" style="width: 100%;">
+
+        <p class="caption">
+          Rapid progress was made on visual benchmarks last year.
+        </p>
+
+        <p class='text'>
+
+          To provide a representative evaluation, benchmarks need to be high-quality and diverse. Moreover, with the rise of models that leverage test-time compute scaling -- and subsequently use more resources during inference -- there are strong incentives for benchmarks that are lightweight.
+
+        </p>
+
+
+    </div>
+
+    <div class="container blog main">
+        <h1>
+            ZeroBench
+        </h1>
+
+        <h2>
+          Main Questions
+        </h2>
+
+        <p class="text">
+            To address limitations of existing visual benchmarks and align with the desiderata outline above, we introduce ZeroBench. ZeroBench contains 100 challenging questions that have been uniquely curated by a pool of designers and extensively reviewed. Therefore, ZeroBench is:
+            <b> (1) Challenging, (2) Lightweight, (3) Diverse, and (4) High-quality.</b><br>
+            </p>
+
+            <p class="caption">
+              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
+            </p>
+
+        <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
+
+
+    </div>
+
+
+    <div class="container blog max gray">
+
+        <div class="slideshow">
+            <div class="navigation">
+              <h2>
+                  Examples
+              </h2>
+                <!-- Using FontAwesome Pro -->
+                <!-- <a class="button icon" id="prev_btn"><i class="fa-solid fa-left" ></i></a>
+                <a class="button icon" id="next_btn"><i class="fa-solid fa-right"></i></a> -->
+                <!-- Using FontAwesome Free -->
+                <a class="button icon" id="prev_btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="button icon" id="next_btn"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="slider">
+                <div class="slider-item">
+                    <img src="assets/figures/chess_board.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image depicts the position part way through a standard chess game. In the last move (move 45), black moved a pawn. What is the FEN of the position shown on the chess board?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/commits.png" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Compute the following values and answer the question: A. The longest streak of inactive days. B. The longest streak of contributions made in terms of number of consecutive days . C. The second longest streak of contributions made in terms of number of consecutive days. D. The total number of days when no contributions were made. What is the product of A, B, C and D?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/geese.jpeg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>What percentage of the geese are oriented such that their body faces south on an 8-point compass? Give your answer to one decimal place.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/music_notes.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Read the note pointed at by the pink arrow. Then, read the note pointed at by the green arrow. Return the two notes in that order without a space or comma.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/neurips.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(1) I am sat on the penultimate row of chairs. Each row contains exactly the same number of chairs. To the right, separated by an aisle, is another block of chairs. What is the total number of chairs in the block I am sat in? (2) How many times does the letter "e" appear in text in this image? (3) How many days does the conference last for? What is the product of the answer to (1), (2) and (3)?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/oar.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(1) It's evening in Oxford, UK. The clock is built to align with how the object is oriented in when used. To the nearest integer, how many hours ago was noon? (2) The clock was built from the equipment owned by an oarsman in a College men's eight. His crew rowed in a standard rig. What is the sum of the seat numbers that he could have sat in? (3) Suppose the image was reflected once horizontally, once vertically, then rotated once by 90° clockwise. Which round number is the hour hand closest to? What is the product of the previous 3 answers?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/cat.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>In the image there is a stationary pot (containing different pens and a letter opener) and other things. Consider: (1) The typical number of legs of the species visible in the picture (2) The total number of pens (3) The total number of pen nibs exposed and visible What is the value of the product of (1), (2) and (3)?
+                    </p>
+                </div><div class="slider-item">
+                    <img src="assets/figures/snowflakes_annotated.png" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Assume that these snowflakes are circular (i.e., ignoring the distorted edges) with the diameters indicated with the red lines. Given the scalebar in the lower left of the image, and if each snowflake has a thickness of 2 mm, what is the total volume of snowflakes present in mm^3 to 3 s.f.? When calculating the diameter lengths, you may round to the nearest mm.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/wordsearch.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Answer the question that is written in the shape of a star among the mess of letters.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/calligraphy.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image shows calligraphic writing in Farsi, with some letters annotated with arrows. If we put these letters together, what would the message be when translated into English? Use the colors in the following order: red, orange, yellow, blue, and white.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/path.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Several players entered the maze from the 'Start', each represented in the image by a coloured shape. Their goal is to reach the 'End' point of the maze. The shortest path is the direct route from 'Start' to 'End' that requires the fewest steps without any backtracking (avoiding any loops or dead ends). What is the ratio of (a) the product of the number of sides of each of the shapes positioned on the shortest path (incorrect players) and (b) the product of the number of sides of each of the shapes not positioned on the shortest path?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/boards.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Compute the mean of the (1) fraction of clipboards containing pages and (2) the fraction of ceiling tiles containing lights (include partially visible tiles); multiply this number by the number of horizontal panels on the radiator. Give your answer to 2 decimal places.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/globe.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>You are trying to crack a safe, and you need a 6-digit code. You find the following clues and items left behind by the owner of the safe. What is the full code?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/pens_lids.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image shows my collection of pens and markers. What percentage of my pens do not have lids or caps? Give your answer to 2 decimal places.
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+      </div>
+
+        <div class="container blog main">
+
+          <h1>
+            ZeroBench
+          </h1>
+
+          <h2>
+            Subquestions
+          </h2>
+
+            <p class="text">
+                  To differentiate model performance, ZeroBench also includes 334 subquestions corresponding to individual reasoning steps required to answer each of the main questions. These subquestions are inherently easier. Each question has on average 3.4 subquestions.
+            </p>
+
+            <p class="caption">
+              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
+            </p>
+
+            <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
+
+
+        </div>
+
+
+
+        <div class="container blog main gray">
+            <div class="columns-2">
+                <div>
+                     <img src="assets/figures/menu.jpeg" style="width: 100%;">
+                     <p class="caption">
+                       <b>Question: </b>Examine the picture. I want to order one of each item on the menu but can only see it from this view. Ignoring any deals, what is the total cost of ordering each item on the menu once? Give the answer in HKD.<br>
+                       <b>Subquestion 1: </b>How many items are there on the menu?<br>
+                       <b>Subquestion 2: </b>What is the price of item 1 in HKD?<br>
+                       <b>Subquestion 3: </b>What is the price of item 23 in HKD?<br>
+                       <b>Subquestion 4: </b>What is the price of item 22 in HKD?<br>
+                       <b>Subquestion 5: </b>How many items are there in each column?
+                     </p>
+                </div>
+                <div>
+                    <img src="assets/figures/dumbells.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(i) First, count the total number of dumbbells. (ii) Second, calculate the total weight of dumbbells weighing between 5 and 15 lbs (inclusive), in lbs. (iii) Third, count the total number of kettlebells. (iv) Fourth, calculate the total weight of the kettlebells, in lbs. Compute the sum of the answers to (i), (ii), (iii) and (iv).<br>
+                      <b>Subquestion 1: </b>How many kettlebells are there in total?<br>
+                      <b>Subquestion 2: </b>How many dumbbells are there total?<br>
+                      <b>Subquestion 3: </b>Estimate the weight, in lbs, of each green kettlebell. Do not include the units in your answer.
+                    </p>
+               </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="container blog main">
+        <h1 >
+            Leaderboard
+        </h1>
+
+        <p class="text">
+
+          Accuracy scores on the ZeroBench main questions and subquestions.<br>pass@1 and n correct are carried out using greedy decoding (temperature=0).<br>pass@5 and 5/5 reliability are based on 5 samplings at temperature=0.7 and top_p=0.95.<br>
+          <em>Note: purple columns in the table can be sorted.</em>
+
+            <div class="table-wrapper">
+                <table id="sortableTable">
+                    <thead class="center">
+                        <tr class="highlight-header1-row">
+                            <th></th>
+                            <th colspan="3">Main questions (100)</th>
+                            <th colspan="2">Subquestions (334)</th>
+                        </tr>
+                        <tr class="highlight-header2-row">
+                            <!-- The onclick sort handlers below can remain or be removed as needed -->
+                            <th onclick="sortTable(0, this)">Model <span class="arrow"></span></th>
+                            <th onclick="sortTable(1, this)">pass@1 <span class="arrow"></span></th>
+                            <th onclick="sortTable(2, this)">pass@5 <span class="arrow"></span></th>
+                            <th onclick="sortTable(3, this)">5/5 <span class="arrow"></span></th>
+                            <th onclick="sortTable(4, this)">pass@1 <span class="arrow"></span></th>
+                            <th onclick="sortTable(5, this)">n correct <span class="arrow"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="center">
+
+                        <!-- Reasoning LMMs -->
+                        <tr>
+                            <td>o1 pro</td>
+                            <td>0.0</td>     <!-- pass@1 (main) -->
+                            <td>-</td>       <!-- pass@5 (main) -->
+                            <td>0.0</td>     <!-- 5/5       -->
+                            <td>22.40</td>   <!-- pass@1 (sub) -->
+                            <td>75</td>      <!-- n correct (sub) -->
+                        </tr>
+                        <tr>
+                            <td>o1</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>19.93</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>Gemini 2 Flash Thinking</td>
+                            <td>0.0</td>
+                            <td><b>7.0</b></td>
+                            <td>0.0</td>
+                            <td>19.67</td>
+                            <td>67</td>
+                        </tr>
+                        <tr>
+                            <td>QVQ</td>
+                            <td>0.0</td>
+                            <td>3.0</td>
+                            <td>0.0</td>
+                            <td>19.78</td>
+                            <td>66</td>
+                        </tr>
+
+                        <!-- Proprietary LMMs -->
+                        <tr>
+                            <td>GPT-4o</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>21.18</td>
+                            <td>71</td>
+                        </tr>
+                        <tr>
+                            <td>GPT-4o mini</td>
+                            <td>0.0</td>
+                            <td>2.0</td>
+                            <td>0.0</td>
+                            <td>16.98</td>
+                            <td>55</td>
+                        </tr>
+                        <tr>
+                            <td>Gemini 2 Flash</td>
+                            <td>0.0</td>
+                            <td>3.0</td>
+                            <td>0.0</td>
+                            <td>22.47</td>
+                            <td>74</td>
+                        </tr>
+                        <tr>
+                            <td>Gemini 1.5 Pro</td>
+                            <td>0.0</td>
+                            <td>2.0</td>
+                            <td>0.0</td>
+                            <td>20.25</td>
+                            <td>70</td>
+                        </tr>
+                        <tr>
+                            <td>Gemini 1.5 Flash</td>
+                            <td>0.0</td>
+                            <td>2.0</td>
+                            <td>0.0</td>
+                            <td>18.02</td>
+                            <td>63</td>
+                        </tr>
+                        <tr>
+                            <td>Gemini 1 Pro Vision</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>12.17</td>
+                            <td>44</td>
+                        </tr>
+                        <tr>
+                            <td>Claude 3.5 Sonnet v2</td>
+                            <td>0.0</td>
+                            <td>2.0</td>
+                            <td>0.0</td>
+                            <td><b>24.30</b></td>
+                            <td><b>81</b></td>
+                        </tr>
+                        <tr>
+                            <td>Claude 3.5 Sonnet</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>19.73</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>Claude 3 Opus</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>14.50</td>
+                            <td>46</td>
+                        </tr>
+                        <tr>
+                            <td>Claude 3 Sonnet</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>16.25</td>
+                            <td>49</td>
+                        </tr>
+                        <tr>
+                            <td>Claude 3 Haiku</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>12.12</td>
+                            <td>40</td>
+                        </tr>
+                        <tr>
+                            <td>Reka Edge</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>3.38</td>
+                            <td>12</td>
+                        </tr>
+
+                        <!-- Open-weight LMMs -->
+                        <tr>
+                            <td>Llama 3.2 90B</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                            <td>13.07</td>
+                            <td>47</td>
+                        </tr>
+                        <tr>
+                            <td>Qwen</td>
+                            <td>0.0</td>
+                            <td>2.0</td>
+                            <td>0.0</td>
+                            <td>11.90</td>
+                            <td>37</td>
+                        </tr>
+                        <tr>
+                            <td>NVLM</td>
+                            <td>0.0</td>
+                            <td>1.0</td>
+                            <td>0.0</td>
+                            <td>13.78</td>
+                            <td>46</td>
+                        </tr>
+                        <tr>
+                            <td>Pixtral</td>
+                            <td>0.0</td>
+                            <td>3.0</td>
+                            <td>0.0</td>
+                            <td>13.50</td>
+                            <td>49</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </p>
+        <br>
+
+    </div>
+
+    <div class="container blog main">
+        <h1>
+            Findings
+        </h1>
+
+        <h2>
+          ZeroBench is impossible for contemporary LMMs.
+        </h2>
+
+        <p class="text">
+            On pass@1, all models score 0% on ZeroBench, failing to answer a single question correctly.
+        </p>
+
+        <h2>
+          Some questions are within reach.
+        </h2>
+
+        <p class="text">
+            We find non-zero performance in the pass@5 setting, with most models correctly answering 1-3 questions; this suggests some questions are slightly easier, and are just within the limits of the capabilities of some models. However, considering the 5/5 reliability metric for the same responses, the results are all 0%, indicating low consistency.
+        </p>
+
+        <h2>
+          Subquestions differentiate model performance.
+        </h2>
+
+        <p class="text">
+          There is sufficient signal in the subquestion scores to differentiate model performance. Claude
+Sonnet 3.5 v2 is the best-performing model after scoring
+24.30% pass@1 and answering 81 out of 334 subquestions
+correctly. Although significantly less challenging than the
+main questions, the models still struggle to
+correctly answer these subquestions. On ZeroBench there is no
+clear advantage of reasoning models over traditional models.
+  </p>
+
+
+
+    </div>
+
+
+    <div class="container blog main">
+        <h1>
+          Improvements
+        </h1>
+
+        <h2>
+          Feedback
+        </h2>
+
+        <p class="text">
+            Although each question and subquestion in ZeroBench was thoroughly reviewed, we cannot guarantee our benchmark is completely error free. If you come across an error or have feedback on the dataset, please contact us.
+        </p>
+
+        <h2>
+          Additional Questions
+        </h2>
+
+        <p class="text">
+          If you would like to contribute questions to our benchmark that are in distribution with the questions in ZeroBench, please contact us!
+        </p>
+
+</div>
+
+
+    <div class="container blog main">
+        <h1>
+          Data
+        </h1>
+
+        <p class="text">
+            The ZeroBench questions and subquestions are available on HuggingFace via this <a href="https://huggingface.co/datasets/jonathan-roberts1/zerobench">Dataset 🤗</a>, and can be accessed using the following:
+
+<pre><code class="python">
+from datasets import load_dataset
+
+# main questions
+zerobench_ds = load_dataset('jonathan-roberts1/zerobench', split='zerobench')
+
+zerobench_ds
+"""
+Dataset({
+    features: ['question_id', 'question_text', 'question_images_decoded',
+               'question_answer', 'question_images', 'image_attribution'],
+    num_rows: 100
+})
+"""
+
+# subquestions
+zerobench_subquestions_ds = load_dataset('jonathan-roberts1/zerobench',
+                                         split='zerobench_subquestions')
+zerobench_subquestions_ds
+"""
+Dataset({
+    features: ['question_id', 'question_text', 'question_images_decoded',
+               'question_answer', 'question_images', 'image_attribution'],
+    num_rows: 334
+})
+"""</code></pre>
+          </p>
+
+
+        <h1>
+            Code
+        </h1>
+
+        <p class="text">
+            ZeroBench is lightweight and straightforward to evaluate. The below snippet outlines a simple pass@1 evaluation on the ZeroBench main questions. Check out our <a href="https://github.com/jonathan-roberts1/zerobench">GitHub repo</a> has more details and evaluation code.
+          </p>
+
+
+<pre><code class="python">
+from datasets import load_dataset
+from tqdm import tqdm
+import pandas as pd
+import re
+
+# Load dataset. Optional: set cache_dir="PATH/TO/MY/CACHE/DIR"
+zerobench_ds = load_dataset('jonathan-roberts1/zerobench', split='zerobench')
+
+# DataFrame to store results
+output_df = pd.DataFrame(
+    columns=["Question_ID", "Ground_Truth", "Model_Output", "Correct?"]
+)
+
+# Iterate over questions
+for idx, item in tqdm(enumerate(zerobench_ds)):
+    
+    # Features: ['question_id', 'question_text', 'question_images_decoded',
+    #            'question_answer', 'question_images', 'image_attribution']
+
+    question = item['question_text']
+    images = item['question_images_decoded']
+    
+    # Or using images dir download:
+    # from PIL import Image
+    # images = [Image.open(img) for img in item['question_images']]
+
+    ground_truth = item['question_answer']
+
+    # Construct prompt
+    instruction = (
+        "\n\n\nLet's think step by step and give the final answer in curly "
+        "braces, like this: {final answer}"
+    )
+    prompt = question + instruction
+
+    """Add your model inference function here"""
+    model_response = ''#model_response = YOUR_MODEL_INFERENCE_FUNCTION(prompt, images)
+
+    formatted_response = model_response.strip().lower()
+
+    # Try to extract final answer from curly braces
+    try:
+        pattern = r"\{(.*?)\}"
+        parsed_answer = re.findall(pattern, formatted_response)[-1]
+    except IndexError:
+        parsed_answer = ''
+
+    # Evaluate answer
+    correct = (
+        parsed_answer[:len(ground_truth)].lower() == ground_truth.strip().lower()
+        and len(parsed_answer) == len(ground_truth.strip())
+    )
+
+    # Store results
+    results_row = {
+        "Question_ID": item['question_id'],
+        "Ground_Truth": ground_truth,
+        "Model_Output": model_response,
+        "Correct?": correct
+    }
+    output_df = pd.concat(
+        [output_df, pd.DataFrame([results_row])], ignore_index=True
+    )
+
+    # Save output
+    # output_df.to_csv("PATH/TO/SAVE/DIR", index=False)
+
+# Compute accuracy
+accuracy = output_df["Correct?"].mean()
+
+print(f"pass@1 accuracy: {100 * accuracy:.2f}%")
+  
+</code></pre>
+
+
+
+
+
+</div>
+
+
+<!--
+<div class="container blog main">
+
+    <h1 >
+        Citation
+    </h1>
+
+    <p class="text">
+        If you find ZeroBench interesting and useful for your research and applications, please kindly cite our paper using this BibTeX:
+    </p>
+
+
+    <pre><code class="plaintext">@article{roberts2025zerobench,
+        title={ZeroBench: An Impossible Visual Benchmark for Contemporary Large Multimodal Models},
+        author={},
+        journal={arXiv preprint arXiv:},
+        year={2025},
+    }</code></pre>
+
+</div>
+-->
+
+    <!-- Footer Page -->
+    <footer>
+        <div class="container">
+            <p>
+                This website is built on the <a href="https://shikun.io/projects/clarity">Clarity Template</a>, designed by <a href="https://shikun.io/">Shikun Liu</a>.
+            </p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="clarity/clarity.js"></script>
+    <script src="assets/scripts/main.js"></script>
+
+    <script>
+      // Simple script to toggle the "is-active" class on the burger and menu
+      document.addEventListener('DOMContentLoaded', () => {
+        const burger = document.querySelector('.navbar-burger');
+        const menu = document.querySelector('.navbar-menu');
+
+        if (burger && menu) {
+          burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+          });
+        }
+      });
+    </script>
+
+    </html>
+</body>
