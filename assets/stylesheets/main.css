@@ -1057,6 +1057,9 @@ table tbody.center td {
 table thead.center th {
   text-align: center;
 }
+table tbody.center td:first-child {
+  text-align: left;
+}
 table td {
   color: #353535;
   padding: 0.5em 0.5em;
