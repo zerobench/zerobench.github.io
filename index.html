@@ -231,233 +231,10 @@
         </div>
     </div>
 
-    <div class="container blog main first" id="blog-main" style="margin-top:-50px;">
-
+       <div class="container blog main first" id="blog-main" style="margin-top:-100px;">
 
         <img src="assets/figures/zb_timeline.png" style="width: 100%;">
 
-      
-        <h1>
-            Introduction
-        </h1>
-
-        <p class='text'>
-
-          Contemporary LMMs often exhibit remarkable performance on existing visual benchmarks, yet closer inspection reveals persistent shortcomings in their ability to interpret and reason about visual content. Many existing benchmarks tend to become saturated, losing their value as effective measures of the true visual understanding capabilities of frontier models.
-
-        </p>
-
-        <img src="assets/figures/sota_comparison.png" style="width: 100%;">
-        <p class="caption">
-          Frontier LMMs score highly on many popular benchmarks, leaving little headroom. By comparison, our ZeroBench proves impossible for current models, leaving maximum headroom.
-        </p>
-
-        <p class='text'>
-
-          Due to rapid progress in model development, the headroom on popular visual benchmarks is quickly eroded---in many cases the State of the Art (SotA) score improved each month.
-
-        </p>
-
-        <img src="assets/figures/sota_progress.png" style="width: 100%;">
-
-        <p class="caption">
-          Rapid progress was made on visual benchmarks last year.
-        </p>
-
-        <p class='text'>
-
-          To provide a representative evaluation, benchmarks need to be high-quality and diverse. Moreover, with the rise of models that leverage test-time compute scaling -- and subsequently use more resources during inference -- there are strong incentives for benchmarks that are lightweight.
-
-        </p>
-
-
-    </div>
-
-    <div class="container blog main">
-        <h1>
-            ZeroBench
-        </h1>
-
-        <h2>
-          Main Questions
-        </h2>
-
-        <p class="text">
-            To address limitations of existing visual benchmarks and align with the desiderata outline above, we introduce ZeroBench. ZeroBench contains 100 challenging questions that have been uniquely curated by a pool of designers and extensively reviewed. Therefore, ZeroBench is:
-            <b> (1) Challenging, (2) Lightweight, (3) Diverse, and (4) High-quality.</b><br>
-            </p>
-
-            <p class="caption">
-              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
-            </p>
-
-        <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
-
-
-    </div>
-
-
-    <div class="container blog max gray">
-
-        <div class="slideshow">
-            <div class="navigation">
-              <h2>
-                  Examples
-              </h2>
-                <!-- Using FontAwesome Pro -->
-                <!-- <a class="button icon" id="prev_btn"><i class="fa-solid fa-left" ></i></a>
-                <a class="button icon" id="next_btn"><i class="fa-solid fa-right"></i></a> -->
-                <!-- Using FontAwesome Free -->
-                <a class="button icon" id="prev_btn"><i class="fa-solid fa-arrow-left"></i></a>
-                <a class="button icon" id="next_btn"><i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            <div class="slider">
-                <div class="slider-item">
-                    <img src="assets/figures/chess_board.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>The image depicts the position part way through a standard chess game. In the last move (move 45), black moved a pawn. What is the FEN of the position shown on the chess board?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/commits.png" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Compute the following values and answer the question: A. The longest streak of inactive days. B. The longest streak of contributions made in terms of number of consecutive days . C. The second longest streak of contributions made in terms of number of consecutive days. D. The total number of days when no contributions were made. What is the product of A, B, C and D?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/geese.jpeg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>What percentage of the geese are oriented such that their body faces south on an 8-point compass? Give your answer to one decimal place.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/music_notes.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Read the note pointed at by the pink arrow. Then, read the note pointed at by the green arrow. Return the two notes in that order without a space or comma.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/neurips.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>(1) I am sitting in the penultimate row of chairs. Each row contains exactly the same number of chairs. To the right, separated by an aisle, is another block of chairs. What is the total number of chairs in the block that I am sitting in? (2) How many times does the letter "e" appear in text in this image? (3) How many days does the conference last for? What is the product of the answer to (1), (2) and (3)?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/oar.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>(1) It's evening in Oxford, UK. The clock is built to align with how the object is oriented in when used. To the nearest integer, how many hours ago was noon? (2) The clock was built from the equipment owned by an oarsman in a College men's eight. His crew rowed in a standard rig. What is the sum of the seat numbers that he could have sat in? (3) Suppose instead that the time is read based on the clock orientation in the image. If the clock hands were reflected once horizontally, once vertically, then rotated once by 90° clockwise. Which round number is the hour hand closest to? What is the product of the previous 3 answers?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/cat.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>In the image there is a stationary pot (containing different pens and a letter opener) and other things. Consider: (1) The typical number of legs of the species visible in the picture (2) The total number of pens (3) The total number of pen nibs exposed and visible What is the value of the product of (1), (2) and (3)?
-                    </p>
-                </div><div class="slider-item">
-                    <img src="assets/figures/snowflakes_annotated.png" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Assume that these snowflakes are circular (i.e., ignoring the distorted edges) with the diameters indicated with the red lines. Given the scalebar in the lower left of the image, and if each snowflake has a thickness of 2 mm, what is the total volume of snowflakes present in mm^3 to 3 s.f.? When calculating the diameter lengths, you may round to the nearest mm.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/wordsearch.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Answer the question that is written in the shape of a star among the mess of letters.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/calligraphy.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>The image shows calligraphic writing in Farsi, with some letters annotated with arrows. If we put these letters together, what would the message be when translated into English? Use the colors in the following order: red, orange, yellow, blue, and white.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/path.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Several players entered the maze from the 'Start', each represented in the image by a coloured shape. Their goal is to reach the 'End' point of the maze. The shortest path is the direct route from 'Start' to 'End' that requires the fewest steps without any backtracking (avoiding any loops or dead ends). What is the ratio of (a) the product of the number of sides of each of the shapes positioned on the shortest path and (b) the product of the number of sides of each of the shapes not positioned on the shortest path?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/boards.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>Compute the mean of the (1) fraction of clipboards containing pages and (2) the fraction of ceiling tiles containing lights (include partially visible tiles); multiply this number by the number of horizontal panels on the radiator. Give your answer to 2 decimal places.
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/globe.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>You are trying to crack a safe, and you need a 6-digit code. You find the following clues and items left behind by the owner of the safe. What is the full code?
-                    </p>
-                </div>
-                <div class="slider-item">
-                    <img src="assets/figures/pens_lids.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>The image shows my collection of pens, pencils and markers. (1) What percentage do not have lids or caps? Give your answer to 2 decimal places. (2) Estimate the number of ballpoint pens. Compute the product of your answers to (1) and (2).
-                    </p>
-                </div>
-
-
-            </div>
-        </div>
-      </div>
-
-        <div class="container blog main">
-
-          <h1>
-            ZeroBench
-          </h1>
-
-          <h2>
-            Subquestions
-          </h2>
-
-            <p class="text">
-                  To differentiate model performance, ZeroBench also includes 334 subquestions corresponding to individual reasoning steps required to answer each of the main questions. These subquestions are inherently easier. Each question has on average 3.4 subquestions.
-            </p>
-
-            <p class="caption">
-              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
-            </p>
-
-            <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
-
-
-        </div>
-
-
-
-        <div class="container blog main gray">
-            <div class="columns-2">
-                <div>
-                     <img src="assets/figures/menu.jpeg" style="width: 100%;">
-                     <p class="caption">
-                       <b>Question: </b>Examine the picture. I want to order one of each item on the menu but can only see it from this view. Ignoring any deals, what is the total cost of ordering each item on the menu once? Give the answer in HKD.<br>
-                       <b>Subquestion 1: </b>How many items are there on the menu?<br>
-                       <b>Subquestion 2: </b>What is the price of item 1 in HKD?<br>
-                       <b>Subquestion 3: </b>What is the price of item 23 in HKD?<br>
-                       <b>Subquestion 4: </b>What is the price of item 22 in HKD?<br>
-                       <b>Subquestion 5: </b>How many items are there in each column?
-                     </p>
-                </div>
-                <div>
-                    <img src="assets/figures/dumbells.jpg" style="width: 100%;">
-                    <p class="caption">
-                      <b>Question: </b>(i) First, count the total number of dumbbells on the rack directly in front of me. (ii) Second, calculate the total weight of dumbbells on that rack which weigh between 5 and 15 lbs (inclusive), in lbs. (iii) Third, count the total number of kettlebells. (iv) Fourth, calculate the total weight of the kettlebells, in lbs. Compute the sum of the answers to (i), (ii), (iii) and (iv).<br>
-                      <b>Subquestion 1: </b>How many kettlebells are there in total?<br>
-                      <b>Subquestion 2: </b>How many dumbbells are there in total on the rack directly in front of me.?<br>
-                      <b>Subquestion 3: </b>Estimate the weight, in lbs, of each green kettlebell. Do not include the units in your answer.
-                    </p>
-               </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
-
-
-    <div class="container blog main">
         <h1 >
             Leaderboard
         </h1>
@@ -740,6 +517,234 @@
         
 
     </div>
+
+    <div class="container blog main">
+
+
+
+
+      
+        <h1>
+            Introduction
+        </h1>
+
+        <p class='text'>
+
+          Contemporary LMMs often exhibit remarkable performance on existing visual benchmarks, yet closer inspection reveals persistent shortcomings in their ability to interpret and reason about visual content. Many existing benchmarks tend to become saturated, losing their value as effective measures of the true visual understanding capabilities of frontier models.
+
+        </p>
+
+        <img src="assets/figures/sota_comparison.png" style="width: 100%;">
+        <p class="caption">
+          Frontier LMMs score highly on many popular benchmarks, leaving little headroom. By comparison, our ZeroBench proves impossible for current models, leaving maximum headroom.
+        </p>
+
+        <p class='text'>
+
+          Due to rapid progress in model development, the headroom on popular visual benchmarks is quickly eroded---in many cases the State of the Art (SotA) score improved each month.
+
+        </p>
+
+        <img src="assets/figures/sota_progress.png" style="width: 100%;">
+
+        <p class="caption">
+          Rapid progress was made on visual benchmarks last year.
+        </p>
+
+        <p class='text'>
+
+          To provide a representative evaluation, benchmarks need to be high-quality and diverse. Moreover, with the rise of models that leverage test-time compute scaling -- and subsequently use more resources during inference -- there are strong incentives for benchmarks that are lightweight.
+
+        </p>
+
+
+    </div>
+
+    <div class="container blog main">
+        <h1>
+            ZeroBench
+        </h1>
+
+        <h2>
+          Main Questions
+        </h2>
+
+        <p class="text">
+            To address limitations of existing visual benchmarks and align with the desiderata outline above, we introduce ZeroBench. ZeroBench contains 100 challenging questions that have been uniquely curated by a pool of designers and extensively reviewed. Therefore, ZeroBench is:
+            <b> (1) Challenging, (2) Lightweight, (3) Diverse, and (4) High-quality.</b><br>
+            </p>
+
+            <p class="caption">
+              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
+            </p>
+
+        <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
+
+
+    </div>
+
+
+    <div class="container blog max gray">
+
+        <div class="slideshow">
+            <div class="navigation">
+              <h2>
+                  Examples
+              </h2>
+                <!-- Using FontAwesome Pro -->
+                <!-- <a class="button icon" id="prev_btn"><i class="fa-solid fa-left" ></i></a>
+                <a class="button icon" id="next_btn"><i class="fa-solid fa-right"></i></a> -->
+                <!-- Using FontAwesome Free -->
+                <a class="button icon" id="prev_btn"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="button icon" id="next_btn"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="slider">
+                <div class="slider-item">
+                    <img src="assets/figures/chess_board.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image depicts the position part way through a standard chess game. In the last move (move 45), black moved a pawn. What is the FEN of the position shown on the chess board?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/commits.png" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Compute the following values and answer the question: A. The longest streak of inactive days. B. The longest streak of contributions made in terms of number of consecutive days . C. The second longest streak of contributions made in terms of number of consecutive days. D. The total number of days when no contributions were made. What is the product of A, B, C and D?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/geese.jpeg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>What percentage of the geese are oriented such that their body faces south on an 8-point compass? Give your answer to one decimal place.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/music_notes.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Read the note pointed at by the pink arrow. Then, read the note pointed at by the green arrow. Return the two notes in that order without a space or comma.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/neurips.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(1) I am sitting in the penultimate row of chairs. Each row contains exactly the same number of chairs. To the right, separated by an aisle, is another block of chairs. What is the total number of chairs in the block that I am sitting in? (2) How many times does the letter "e" appear in text in this image? (3) How many days does the conference last for? What is the product of the answer to (1), (2) and (3)?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/oar.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(1) It's evening in Oxford, UK. The clock is built to align with how the object is oriented in when used. To the nearest integer, how many hours ago was noon? (2) The clock was built from the equipment owned by an oarsman in a College men's eight. His crew rowed in a standard rig. What is the sum of the seat numbers that he could have sat in? (3) Suppose instead that the time is read based on the clock orientation in the image. If the clock hands were reflected once horizontally, once vertically, then rotated once by 90° clockwise. Which round number is the hour hand closest to? What is the product of the previous 3 answers?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/cat.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>In the image there is a stationary pot (containing different pens and a letter opener) and other things. Consider: (1) The typical number of legs of the species visible in the picture (2) The total number of pens (3) The total number of pen nibs exposed and visible What is the value of the product of (1), (2) and (3)?
+                    </p>
+                </div><div class="slider-item">
+                    <img src="assets/figures/snowflakes_annotated.png" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Assume that these snowflakes are circular (i.e., ignoring the distorted edges) with the diameters indicated with the red lines. Given the scalebar in the lower left of the image, and if each snowflake has a thickness of 2 mm, what is the total volume of snowflakes present in mm^3 to 3 s.f.? When calculating the diameter lengths, you may round to the nearest mm.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/wordsearch.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Answer the question that is written in the shape of a star among the mess of letters.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/calligraphy.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image shows calligraphic writing in Farsi, with some letters annotated with arrows. If we put these letters together, what would the message be when translated into English? Use the colors in the following order: red, orange, yellow, blue, and white.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/path.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Several players entered the maze from the 'Start', each represented in the image by a coloured shape. Their goal is to reach the 'End' point of the maze. The shortest path is the direct route from 'Start' to 'End' that requires the fewest steps without any backtracking (avoiding any loops or dead ends). What is the ratio of (a) the product of the number of sides of each of the shapes positioned on the shortest path and (b) the product of the number of sides of each of the shapes not positioned on the shortest path?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/boards.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>Compute the mean of the (1) fraction of clipboards containing pages and (2) the fraction of ceiling tiles containing lights (include partially visible tiles); multiply this number by the number of horizontal panels on the radiator. Give your answer to 2 decimal places.
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/globe.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>You are trying to crack a safe, and you need a 6-digit code. You find the following clues and items left behind by the owner of the safe. What is the full code?
+                    </p>
+                </div>
+                <div class="slider-item">
+                    <img src="assets/figures/pens_lids.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>The image shows my collection of pens, pencils and markers. (1) What percentage do not have lids or caps? Give your answer to 2 decimal places. (2) Estimate the number of ballpoint pens. Compute the product of your answers to (1) and (2).
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+      </div>
+
+        <div class="container blog main">
+
+          <h1>
+            ZeroBench
+          </h1>
+
+          <h2>
+            Subquestions
+          </h2>
+
+            <p class="text">
+                  To differentiate model performance, ZeroBench also includes 334 subquestions corresponding to individual reasoning steps required to answer each of the main questions. These subquestions are inherently easier. Each question has on average 3.4 subquestions.
+            </p>
+
+            <p class="caption">
+              Note: to reduce the likelihood of data contamination via memorisation, we do not include answers to the example questions shown below.
+            </p>
+
+            <!-- <img src="clarity/images/residual.png" style="width: 80%;"> -->
+
+
+        </div>
+
+
+
+        <div class="container blog main gray">
+            <div class="columns-2">
+                <div>
+                     <img src="assets/figures/menu.jpeg" style="width: 100%;">
+                     <p class="caption">
+                       <b>Question: </b>Examine the picture. I want to order one of each item on the menu but can only see it from this view. Ignoring any deals, what is the total cost of ordering each item on the menu once? Give the answer in HKD.<br>
+                       <b>Subquestion 1: </b>How many items are there on the menu?<br>
+                       <b>Subquestion 2: </b>What is the price of item 1 in HKD?<br>
+                       <b>Subquestion 3: </b>What is the price of item 23 in HKD?<br>
+                       <b>Subquestion 4: </b>What is the price of item 22 in HKD?<br>
+                       <b>Subquestion 5: </b>How many items are there in each column?
+                     </p>
+                </div>
+                <div>
+                    <img src="assets/figures/dumbells.jpg" style="width: 100%;">
+                    <p class="caption">
+                      <b>Question: </b>(i) First, count the total number of dumbbells on the rack directly in front of me. (ii) Second, calculate the total weight of dumbbells on that rack which weigh between 5 and 15 lbs (inclusive), in lbs. (iii) Third, count the total number of kettlebells. (iv) Fourth, calculate the total weight of the kettlebells, in lbs. Compute the sum of the answers to (i), (ii), (iii) and (iv).<br>
+                      <b>Subquestion 1: </b>How many kettlebells are there in total?<br>
+                      <b>Subquestion 2: </b>How many dumbbells are there in total on the rack directly in front of me.?<br>
+                      <b>Subquestion 3: </b>Estimate the weight, in lbs, of each green kettlebell. Do not include the units in your answer.
+                    </p>
+               </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+ 
 
     <div class="container blog main">
 
