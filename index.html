@@ -271,7 +271,8 @@
         Accuracy scores on the ZeroBench main questions and subquestions.
         <br>pass@1 and n correct are based on 1 sampling carried out using greedy decoding (temperature=0) where possible, otherwise default parameters are used.
         <br>pass@5 and 5/5 reliability are based on 5 samplings at temperature=0.7 and top_p=0.95.<br>
-        <em>Note: purple columns in the table can be sorted. 🔥: Evaluated since release.</em>
+        <em>Note: purple columns in the table can be sorted.<br>
+          🔥: Evaluated since release. <u>Evaluated by model provider.</u></em>
 
           <div class="table-wrapper">
               <table id="sortableTable">
@@ -292,9 +293,68 @@
                       </tr>
                   </thead>
                   <tbody class="center">
+
+      <tr>
+        <td>Seed1.5-VL (thinking) 🔥</td>
+        <td><u>2.0</u></td>     <!-- pass@1 (main) -->
+        <td>-</td>       <!-- pass@5 (main) -->
+        <td>-</td>     <!-- 5/5       -->
+        <td><b><u>30.8</u></b></td>   <!-- pass@1 (sub) -->
+        <td>-</td>      <!-- n correct (sub) -->
+    </tr>
+
+    <tr>
+      <td>Seed1.5-VL 🔥</td>
+      <td><u>0.0</u></td>     <!-- pass@1 (main) -->
+      <td>-</td>       <!-- pass@5 (main) -->
+      <td>-</td>     <!-- 5/5       -->
+      <td><u>29.0</u></td>   <!-- pass@1 (sub) -->
+      <td>-</td>      <!-- n correct (sub) -->
+  </tr>
+
+
+    <tr>
+      <td>Claude Opus 4 🔥</td>
+      <td><b>1.0</b></td>     <!-- pass@1 (main) -->
+      <td>-</td>       <!-- pass@5 (main) -->
+      <td>-</td>     <!-- 5/5       -->
+      <td>-</td>   <!-- pass@1 (sub) -->
+      <td>-</td>      <!-- n correct (sub) -->
+  </tr>
+  
+  <tr>
+    <td>Claude Opus 4 (thinking) 🔥</td>
+    <td>4.0</td>     <!-- pass@1 (main) -->
+    <td>-</td>       <!-- pass@5 (main) -->
+    <td>-</td>     <!-- 5/5       -->
+    <td>-</td>   <!-- pass@1 (sub) -->
+    <td>-</td>      <!-- n correct (sub) -->
+  </tr>
+
+  <tr>
+    <td>Claude Sonnet 4 🔥</td>
+    <td>2.0</td>     <!-- pass@1 (main) -->
+    <td>-</td>       <!-- pass@5 (main) -->
+    <td>-</td>     <!-- 5/5       -->
+    <td>-</td>   <!-- pass@1 (sub) -->
+    <td>-</td>      <!-- n correct (sub) -->
+</tr>
+
+<tr>
+  <td>Claude Sonnet 4 (thinking) 🔥</td>
+  <td>3.0</td>     <!-- pass@1 (main) -->
+  <td>-</td>       <!-- pass@5 (main) -->
+  <td>-</td>     <!-- 5/5       -->
+  <td>-</td>   <!-- pass@1 (sub) -->
+  <td>-</td>      <!-- n correct (sub) -->
+</tr>
+
+
+
+
       <tr>
           <td>o3 🔥</td>
-          <td><b>3.0</b></td>     <!-- pass@1 (main) -->
+          <td>3.0</td>     <!-- pass@1 (main) -->
           <td>6.0</td>       <!-- pass@5 (main) -->
           <td>0.0</td>     <!-- 5/5       -->
           <td>25.51</td>   <!-- pass@1 (sub) -->
@@ -339,7 +399,7 @@
 
     <tr>
         <td>Gemini 2.5 Pro 🔥</td>
-        <td><b>3.0</b></td>     <!-- pass@1 (main) -->
+        <td>3.0</td>     <!-- pass@1 (main) -->
         <td>5.0</td>       <!-- pass@5 (main) -->
         <td><b>1.0</b></td>     <!-- 5/5       -->
         <td>26.04</td>   <!-- pass@1 (sub) -->
@@ -348,7 +408,7 @@
 
     <tr>
       <td>Gemini 2.5 Flash 🔥</td>
-      <td><b>3.0</b></td>     <!-- pass@1 (main) -->
+      <td>3.0</td>     <!-- pass@1 (main) -->
       <td>3.0</td>       <!-- pass@5 (main) -->
       <td><b>1.0</b></td>     <!-- 5/5       -->
       <td>24.48</td>   <!-- pass@1 (sub) -->
@@ -364,6 +424,23 @@
       <td><b>95</b></td>      <!-- n correct (sub) -->
   </tr>
 
+  <tr>
+    <td>Claude Sonnet 3.7 🔥</td>
+    <td>1.0</td>     <!-- pass@1 (main) -->
+    <td>-</td>       <!-- pass@5 (main) -->
+    <td>-</td>     <!-- 5/5       -->
+    <td>-</td>   <!-- pass@1 (sub) -->
+    <td>-</td>      <!-- n correct (sub) -->
+</tr>
+
+<tr>
+  <td>Claude Sonnet 3.7 (thinking) 🔥</td>
+  <td>3.0</td>     <!-- pass@1 (main) -->
+  <td>-</td>       <!-- pass@5 (main) -->
+  <td>-</td>     <!-- 5/5       -->
+  <td>-</td>   <!-- pass@1 (sub) -->
+  <td>-</td>      <!-- n correct (sub) -->
+</tr>
 
   <!-- Reasoning LMMs -->
   <tr>
