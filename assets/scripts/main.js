@@ -186,7 +186,25 @@ function sortTable(columnIndex, headerClicked, forceDirection) {
 
 // Force descending sort on pass@5 (columnIndex=2) after page load
 window.addEventListener('DOMContentLoaded', function() {
-  const ths = document.getElementById("sortableTable").querySelectorAll("th");
-  // Column 2 is pass@5
-  sortTable(2, ths[2], "desc");
+  const table = document.getElementById("sortableTable");
+  if (table) {
+    const ths = table.querySelectorAll("th");
+    if (ths && ths.length > 2) {
+      // Column 2 is pass@5
+      sortTable(2, ths[2], "desc");
+    }
+  }
+});
+
+// Also try on window.load as a fallback
+window.addEventListener('load', function() {
+  const table = document.getElementById("sortableTable");
+  if (table) {
+    const ths = table.querySelectorAll("th");
+    // Check if sorting hasn't been applied yet
+    const hasSort = Array.from(ths).some(th => th.classList.contains("asc") || th.classList.contains("desc"));
+    if (!hasSort && ths && ths.length > 2) {
+      sortTable(2, ths[2], "desc");
+    }
+  }
 });
