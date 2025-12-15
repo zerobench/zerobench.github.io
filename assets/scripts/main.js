@@ -184,9 +184,9 @@ function sortTable(columnIndex, headerClicked, forceDirection) {
   rows.forEach(tr => tbody.appendChild(tr));
 }
 
-// Force descending sort on pass@1 (columnIndex=1) after page load
+// Force descending sort on pass@5 (columnIndex=2) after page load
 window.addEventListener('DOMContentLoaded', function() {
   const ths = document.getElementById("sortableTable").querySelectorAll("th");
-  // Column 1 is pass@1
-  sortTable(1, ths[1], "desc");
+  // Column 2 is pass@5
+  sortTable(2, ths[2], "desc");
 });
