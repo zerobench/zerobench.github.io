@@ -268,12 +268,9 @@
 
       <p class="text">
 
-        Accuracy scores on the ZeroBench main questions and subquestions.
-        <br>pass@1 and n correct are based on 1 sampling carried out using greedy decoding (temperature=0) where possible, otherwise default parameters are used.
-        <br>pass@5 and 5/5 reliability are based on 5 samplings using temperature=0.7 and top_p=0.95.<br>
-        <!-- bold: -->
-        <b>***Update: for new model evaluations, we no longer report pass@1. Instead, we report pass@5 and 5/5 using 5 samplings with default model parameters. Recent models leveraging “thinking” often run with fixed or high recommended temperatures, leading to higher-variance outputs. In this regime, pass@1 is much more likely to be unstable and misleading.***</b><br>
-
+        The leaderboard shows accuracy scores on the ZeroBench main questions and subquestions.
+        <br>For models evaluated at release and shortly after, pass@1 and n correct are based on 1 sampling carried out using greedy decoding (temperature=0) where possible, otherwise default parameters are used. pass@5 and 5/5 reliability are based on 5 samplings using temperature=0.7 and top_p=0.95.<br>
+        <b>For new model evaluations, we no longer report pass@1. Instead, we report pass@5 and 5/5 using 5 samplings with default model parameters. Recent models leveraging “thinking” often run with fixed or high recommended temperatures, leading to higher-variance outputs. In this regime, pass@1 is much more likely to be unstable and misleading.</b><br>
         <em>Note: purple columns in the table can be sorted.<br>
           🔥: Evaluated since release. <u>Evaluated by model provider.</u></em>
 
