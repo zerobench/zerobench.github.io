@@ -87,9 +87,12 @@ const [btnLeft, btnRight] = ['prev_btn', 'next_btn'].map(id => document.getEleme
 let interval;
 
 // Set positions
-const setPositions = () =>
+const setPositions = () => {
+    const firstItem = slider.querySelector('.slider-item');
+    const spacing = firstItem ? firstItem.offsetWidth : 440;
     [...slider.children].forEach((item, i) =>
-        item.style.left = `${(i-1) * 440}px`);
+        item.style.left = `${(i-1) * spacing}px`);
+};
 
 // Initial setup
 setPositions();
@@ -130,18 +133,7 @@ btnLeft.addEventListener('click', prev);
 // Start auto slide
 startAuto();
 
-document.addEventListener("mouseover", function (event) {
-  if (event.target.matches(".navbar-dropdown a")) {
-    const randomColor = `hsl(${Math.floor(Math.random() * 360)}, 70%, 70%)`;
-    event.target.style.backgroundColor = randomColor;
-  }
-});
 
-document.addEventListener("mouseout", function (event) {
-  if (event.target.matches(".navbar-dropdown a")) {
-    event.target.style.backgroundColor = "";
-  }
-});
 
 function sortTable(columnIndex, headerClicked, forceDirection) {
   const table = document.getElementById("sortableTable");
