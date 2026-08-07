@@ -5,10 +5,6 @@
  *   view  : date | cost | tokens | price_out | price_in   (x-axis)
  *   ds    : official / reported toggles
  *   split : main | sub
- * Generated data comes from results_plots/build_dataset.py; this file is
- * hand-maintained and mirrored by build_widget.py's build_figure() for the
- * static exports - keep the two in sync.
- *
  * Encoding: colour = metric; filled markers = official runs, hollow = reported
  * (diamond = tool-assisted, square = tools unclear). Date views carry no-tool
  * SOTA step lines extended to the viewer's today; cost/token views carry
@@ -20,8 +16,7 @@
  * The chart reveals itself in three passes - reference frame, then points,
  * then trend lines, with a ring on every step up (see the sweep block below).
  * It plays in full the first time the chart is scrolled to, and fast on every
- * control change. Presentation only, with no counterpart in build_widget.py's
- * static export - nothing to sync.
+ * control change.
  */
 (function () {
   'use strict';
@@ -41,12 +36,12 @@
   var METRIC_COLOR = { 'pass@5': '#66c2a5', 'pass^5': '#fc8d62', 'pass@1': '#8da0cb' };
   // Third-party numbers sit behind our own when the two are shown together, so
   // the official runs read first. Alone, reported results carry the chart and
-  // stay at full strength. Mirrored in build_widget.py.
+  // stay at full strength.
   var REPORTED_DIM = 0.65;
   var GROUPS = ['pass@5', 'pass^5', 'pass@1'];
   // Plotly draws later traces on top, so back-to-front is the reverse of GROUPS:
   // pass@1 at the back, then pass^5, with pass@5 on top. Legend keeps GROUPS
-  // order (separate marker-only traces). Mirrors DRAW_ORDER in build_widget.py.
+  // order (separate marker-only traces).
   var DRAW_ORDER = GROUPS.slice().reverse();
   var TOOLS = ['none', 'tool', 'unclear'];
   var INK = '#4d5560', SPINE = '#cfcfcf', GRID = '#ececec', NEUTRAL = '#8a8a8a';
@@ -55,7 +50,7 @@
   var ZB_RELEASE = '2025-02-13';
   var ZB_RELEASE_LABEL_Y = 50;
   var HUMAN_BASELINE = 30;
-  // Type scale and plot margins (mirrored by build_widget.py).
+  // Type scale and plot margins.
   var FS_BASE = 17, FS_AXIS = 19, FS_LEGEND = 16, FS_ANNOT = 16, FS_HOVER = 14;
   var MARGIN = { t: 16, r: 12, b: 70, l: 74 };
   // Legend geometry. Plotly has no multi-column vertical legend, so column two
@@ -289,8 +284,7 @@
       x: span, y: [HUMAN_BASELINE, HUMAN_BASELINE], mode: 'lines',
       name: 'Human baseline (30%)',
       line: { color: NEUTRAL, width: 2, dash: 'dot' },
-      legendgroup: 'official', legendrank: 2000,
-      legendgrouptitle: { text: 'Official' },
+      legendgroup: 'reference', legendrank: 2000,
       legend: legendSlot(1),
       hoverinfo: 'skip'
     });
@@ -304,7 +298,7 @@
     var view = state.view, split = state.split;
     var spec = VIEWS[view], x = spec.x;
     var traces = refTraces(view, split, today);
-    var present = { groups: {}, tools: {}, ds: {} };
+    var present = { groups: { official: {}, reported: {} }, tools: {}, ds: {} };
 
     // How many traces the reference lines took. Plotly keeps one g.trace per
     // trace, in trace order, so this is all the sweep needs to tell the frame
@@ -316,8 +310,9 @@
 
     // Both actually on screen, not merely both toggled on: a dataset with no
     // data in this view contributes nothing to compare against.
-    var bothShown = state.official && state.reported &&
-                    hasData('official', view, split) && hasData('reported', view, split);
+    var officialShown = state.official && hasData('official', view, split);
+    var reportedShown = state.reported && hasData('reported', view, split);
+    var bothShown = officialShown && reportedShown;
 
     ['reported', 'official'].forEach(function (ds) {
       if (!state[ds]) return;
@@ -327,7 +322,7 @@
             return p.group === group && p.tool === tool;
           });
           if (!sel.length) return;
-          if (ds === 'official') present.groups[group] = true;
+          present.groups[ds][group] = true;
           present.ds[ds] = true;
           if (ds === 'reported' && tool !== 'none') present.tools[tool] = true;
           var trace = {
@@ -354,37 +349,40 @@
       });
     });
 
-    // The legend splits by provenance. Column one is our own: the SOTA lines,
-    // then the scores they are derived from - one filled swatch per metric, so
-    // the colour key lives here rather than in a group of its own - then the
-    // human baseline. Column two is third-party, where the only thing left to
-    // distinguish is tool use, so those entries are named for that.
-    GROUPS.forEach(function (group) {
-      if (!present.groups[group]) return;
-      traces.push({
-        x: [null], y: [null], mode: 'markers',
-        marker: { size: 9, color: METRIC_COLOR[group], symbol: 'circle', line: { width: 1, color: 'DarkSlateGrey' } },
-        name: group, legendgroup: 'official',
-        legendrank: 30 + GROUPS.indexOf(group),
-        legendgrouptitle: { text: 'Official' },
-        legend: legendSlot(1), hoverinfo: 'skip'
+    // Each provenance column carries its own score key: filled for official
+    // results and hollow for externally reported results.
+    function addScoreEntries(ds, title, slot) {
+      GROUPS.forEach(function (group) {
+        if (!present.groups[ds][group]) return;
+        var colour = METRIC_COLOR[group];
+        traces.push({
+          x: [null], y: [null], mode: 'markers',
+          marker: ds === 'official'
+            ? { size: 9, color: colour, symbol: 'circle', line: { width: 1, color: 'DarkSlateGrey' } }
+            : { size: 9, color: '#ffffff', symbol: 'circle', line: { width: 1.8, color: colour } },
+          name: group, legendgroup: ds === 'reported' ? 'reported-metric' : ds,
+          legendrank: 30 + GROUPS.indexOf(group),
+          legendgrouptitle: { text: title },
+          legend: legendSlot(slot), hoverinfo: 'skip'
+        });
       });
-    });
+    }
+    if (present.ds.official) addScoreEntries('official', 'Official', 1);
+    if (present.ds.reported) {
+      addScoreEntries('reported', twoColumn() ? 'Metric' : 'Externally reported: Metric', 2);
+    }
     var pointEntries = [];
     if (present.ds.reported) {
       pointEntries.push(['No tools', { size: 8, color: '#ffffff', symbol: 'circle', line: { width: 1.8, color: NEUTRAL } }]);
     }
     if (present.tools.tool) {
-      pointEntries.push(['Tool-assisted', { size: 9.5, color: '#ffffff', symbol: 'diamond', line: { width: 2, color: NEUTRAL } }]);
-    }
-    if (present.tools.unclear) {
-      pointEntries.push(['Tools unclear', { size: 8, color: NEUTRAL, symbol: 'square-open', line: { width: 1.6, color: NEUTRAL } }]);
+      pointEntries.push(['w/ tools', { size: 9.5, color: '#ffffff', symbol: 'diamond', line: { width: 2, color: NEUTRAL } }]);
     }
     pointEntries.forEach(function (e) {
       traces.push({
         x: [null], y: [null], mode: 'markers', marker: e[1],
-        name: e[0], legendgroup: 'reported',
-        legendgrouptitle: { text: 'Externally reported' },
+        name: e[0], legendgroup: 'reported-tools',
+        legendgrouptitle: { text: 'Tool use' },
         legend: legendSlot(2), hoverinfo: 'skip'
       });
     });
@@ -474,7 +472,8 @@
     };
     if (twoColumn()) {
       layout.legend2 = Object.assign({}, legendBase, {
-        x: LEGEND_X + (legendColumnOneWidth() + LEGEND_COL_GAP) / plotWidth()
+        x: LEGEND_X + (legendColumnOneWidth() + LEGEND_COL_GAP) / plotWidth(),
+        title: { text: 'Externally reported', font: { size: FS_LEGEND, color: INK } }
       });
     }
     if (view.type === 'date' && xaxis.range) {
