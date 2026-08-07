@@ -89,13 +89,19 @@ let interval;
 // Set positions
 const setPositions = () => {
     const firstItem = slider.querySelector('.slider-item');
-    const spacing = firstItem ? firstItem.offsetWidth : 440;
+    // offsetWidth is 0 while the slider sits in a display:none tab panel, which
+    // would stack every slide at left:0 - fall back to the nominal width until
+    // the panel is shown and setPositions runs again with a real measurement.
+    const spacing = (firstItem && firstItem.offsetWidth) || 440;
     [...slider.children].forEach((item, i) =>
         item.style.left = `${(i-1) * spacing}px`);
 };
 
 // Initial setup
 setPositions();
+
+// Re-run once the slider's tab panel becomes visible; see the tab router.
+window.zbSetPositions = setPositions;
 
 // Set transition speed
 const setTransitionSpeed = (speed) => {
@@ -136,7 +142,7 @@ startAuto();
 
 
 function sortTable(columnIndex, headerClicked, forceDirection) {
-  const table = document.getElementById("sortableTable");
+  const table = headerClicked.closest("table");
   const tbody = table.querySelector("tbody");
   const rows = Array.from(tbody.querySelectorAll("tr"));
 
@@ -158,45 +164,108 @@ function sortTable(columnIndex, headerClicked, forceDirection) {
   // Set the new direction class on the clicked header
   headerClicked.classList.add(direction);
 
+  // Formatted cells (e.g. "$0.47", "20.2k") carry the raw number in data-sort
+  const sortKey = cell => cell.dataset.sort !== undefined
+    ? cell.dataset.sort
+    : cell.innerText.trim();
+
   // Sort the rows
   rows.sort((rowA, rowB) => {
-    const cellA = rowA.cells[columnIndex].innerText;
-    const cellB = rowB.cells[columnIndex].innerText;
+    const cellA = sortKey(rowA.cells[columnIndex]);
+    const cellB = sortKey(rowB.cells[columnIndex]);
 
     // Attempt numeric sort
-    const valA = parseFloat(cellA) || cellA.toLowerCase();
-    const valB = parseFloat(cellB) || cellB.toLowerCase();
+    const numA = parseFloat(cellA);
+    const numB = parseFloat(cellB);
+    const isNumA = !isNaN(numA);
+    const isNumB = !isNaN(numB);
 
-    if (valA < valB) return direction === "asc" ? -1 : 1;
-    if (valA > valB) return direction === "asc" ? 1 : -1;
-    return 0;
+    // In numeric columns, cells without a value (e.g. "-") always sort last
+    if (isNumA && !isNumB) return -1;
+    if (!isNumA && isNumB) return 1;
+
+    const cmp = (isNumA && isNumB)
+      ? numA - numB
+      : cellA.toLowerCase().localeCompare(cellB.toLowerCase());
+    return direction === "asc" ? cmp : -cmp;
   });
 
   // Reattach sorted rows
   rows.forEach(tr => tbody.appendChild(tr));
 }
 
-// Force descending sort on pass@5 (columnIndex=2) after page load
-window.addEventListener('DOMContentLoaded', function() {
-  const table = document.getElementById("sortableTable");
-  if (table) {
-    const ths = table.querySelectorAll("th");
-    if (ths && ths.length > 2) {
-      // Column 2 is pass@5
-      sortTable(2, ths[2], "desc");
+// Force descending sort on the pass@5 column (marked th.default-sort) of each
+// leaderboard table after page load
+function applyDefaultLeaderboardSorts() {
+  document.querySelectorAll("th.default-sort").forEach(th => {
+    const table = th.closest("table");
+    // Skip tables that have already been sorted
+    const hasSort = Array.from(table.querySelectorAll("th")).some(h =>
+      h.classList.contains("asc") || h.classList.contains("desc"));
+    if (!hasSort) {
+      sortTable(th.cellIndex, th, "desc");
     }
-  }
-});
+  });
+}
+
+window.addEventListener('DOMContentLoaded', applyDefaultLeaderboardSorts);
 
 // Also try on window.load as a fallback
-window.addEventListener('load', function() {
-  const table = document.getElementById("sortableTable");
-  if (table) {
-    const ths = table.querySelectorAll("th");
-    // Check if sorting hasn't been applied yet
-    const hasSort = Array.from(ths).some(th => th.classList.contains("asc") || th.classList.contains("desc"));
-    if (!hasSort && ths && ths.length > 2) {
-      sortTable(2, ths[2], "desc");
-    }
+window.addEventListener('load', applyDefaultLeaderboardSorts);
+
+/* ======================== Previous-score tooltip ========================
+   Leaderboard cells whose value changed in the Aug 2026 evaluation red
+   teaming carry data-prev with the score published before it. A native
+   title= tooltip is slow and easy to miss, and a pure-CSS one would be
+   clipped by .table-wrapper's overflow, so a single fixed-position element
+   is appended to <body> and moved to whichever cell is hovered. */
+(function () {
+  function initScoreTips() {
+    const cells = document.querySelectorAll("td[data-prev]");
+    if (!cells.length) return;
+
+    const tip = document.createElement("div");
+    tip.className = "score-tip";
+    tip.setAttribute("role", "tooltip");
+    document.body.appendChild(tip);
+
+    const METRICS = { "bar-pass1": "pass@1", "bar-pass5": "pass@5", "bar-passhat5": "pass^5" };
+    const label = cell => {
+      // Model name and metric are already in the DOM: the row's first cell and
+      // the cell's own metric class, so no extra data- attributes are needed.
+      const row = cell.closest("tr");
+      const model = row && row.cells[0] ? row.cells[0].textContent.trim() : "";
+      const metric = Object.keys(METRICS).find(c => cell.classList.contains(c));
+      return [model, metric ? METRICS[metric] : ""].filter(Boolean).join(" ");
+    };
+
+    const show = cell => {
+      tip.textContent = label(cell) + " score before evaluation red teaming: " + cell.dataset.prev;
+      tip.classList.add("is-open");
+      // Measured after the text is set, so the width is the final one.
+      const c = cell.getBoundingClientRect();
+      const t = tip.getBoundingClientRect();
+      let left = c.left + c.width / 2 - t.width / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - t.width - 6));
+      const above = c.top - t.height - 8;
+      tip.style.left = left + "px";
+      tip.style.top = (above > 4 ? above : c.bottom + 8) + "px";
+    };
+    const hide = () => tip.classList.remove("is-open");
+
+    cells.forEach(cell => {
+      cell.addEventListener("mouseenter", () => show(cell));
+      cell.addEventListener("mouseleave", hide);
+      cell.addEventListener("focus", () => show(cell));
+      cell.addEventListener("blur", hide);
+      cell.setAttribute("tabindex", "0");
+    });
+    window.addEventListener("scroll", hide, { passive: true });
   }
-});
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScoreTips);
+  } else {
+    initScoreTips();
+  }
+})();
