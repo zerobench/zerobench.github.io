@@ -48,7 +48,7 @@
   var FONT = 'Helvetica Neue, Helvetica, Arial, sans-serif';
   var HEIGHT = 520;
   var ZB_RELEASE = '2025-02-13';
-  var ZB_RELEASE_LABEL_Y = 50;
+  var ZB_RELEASE_LABEL_Y = 44;  // lowered from 50 when the "Unclear" tool-use legend row made the box one line taller
   var HUMAN_BASELINE = 30;
   // Type scale and plot margins.
   var FS_BASE = 17, FS_AXIS = 19, FS_LEGEND = 16, FS_ANNOT = 16, FS_HOVER = 14;
@@ -378,6 +378,9 @@
     if (present.tools.tool) {
       pointEntries.push(['w/ tools', { size: 9.5, color: '#ffffff', symbol: 'diamond', line: { width: 2, color: NEUTRAL } }]);
     }
+    if (present.tools.unclear) {
+      pointEntries.push(['Unclear', { size: 8, color: NEUTRAL, symbol: 'square-open', line: { width: 1.6, color: NEUTRAL } }]);
+    }
     pointEntries.forEach(function (e) {
       traces.push({
         x: [null], y: [null], mode: 'markers', marker: e[1],
@@ -480,7 +483,7 @@
       // Mid-height, not at the top of the line: on views whose x range starts
       // near the release date (reported-only, say) the line passes behind the
       // top-left legend, and a label at the top lands on top of it. Nothing is
-      // plotted this high near February 2025, so 50 is clear in every view.
+      // plotted this high near February 2025, so ZB_RELEASE_LABEL_Y is clear in every view.
       layout.annotations.push({
         text: 'ZeroBench release', x: ZB_RELEASE, y: ZB_RELEASE_LABEL_Y,
         showarrow: false, xanchor: 'left', xshift: 5,
