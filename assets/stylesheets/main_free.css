@@ -2597,7 +2597,7 @@ div.container.blog#first-content div.blog-title .blog-intro .info {
    `p` rules set their own size and padding, hence the explicit selector. */
 div.container.blog#first-content div.blog-title .blog-intro p.affiliation-note {
   font-family: "Charter", Georgia, serif;
-  font-size: 0.9em;
+  font-size: 0.85em;   /* matches p.author */
   font-style: italic;
   color: #6b6478;
   text-align: center;
