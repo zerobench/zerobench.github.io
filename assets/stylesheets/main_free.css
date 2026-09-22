@@ -2591,6 +2591,20 @@ div.container.blog#first-content div.blog-title .blog-intro .info {
     margin-top: 12px;
 }
 
+/* ======================== Affiliation Disclosure ===================== */
+/* Conflict-of-interest line under the author list: the canary note's quiet
+   treatment, centred like the masthead it sits in. The masthead's descendant
+   `p` rules set their own size and padding, hence the explicit selector. */
+div.container.blog#first-content div.blog-title .blog-intro p.affiliation-note {
+  font-family: "Charter", Georgia, serif;
+  font-size: 0.9em;
+  font-style: italic;
+  color: #6b6478;
+  text-align: center;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
 /* ======================== Canary Notice ===================== */
 /* Training-data opt-out marker above the citation. Kept quiet, but the string
    itself uses the site's code treatment so it can be copied verbatim. */
